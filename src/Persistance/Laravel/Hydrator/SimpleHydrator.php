@@ -16,7 +16,12 @@ class SimpleHydrator implements HydratorInterface
 		$properties = $reflection->getProperties(ReflectionProperty::IS_PROTECTED);
 
 		foreach ($properties as $property) {
-		    $result[] = $entity->get{ucfirst($property->getName())};
+			if (
+				null != $property ->getValue()
+				&& 'id' != $property->getName()
+			) {
+		    	$result[snake_case($property)] = $entity->get{ucfirst($property->getName())};
+			}
 		}
 
 		return $result;
