@@ -21,7 +21,7 @@ class Transaction extends AbstractEntity
 		return $this;
 	}
 
-	public function getFirstName($firstName)
+	public function getFirstName()
 	{
 		return $this->firstName;
 	}
@@ -32,7 +32,7 @@ class Transaction extends AbstractEntity
 		return $this;
 	}
 
-	public function getLastName($lastName)
+	public function getLastName()
 	{
 		return $this->lastName;
 	}
@@ -43,7 +43,7 @@ class Transaction extends AbstractEntity
 		return $this;
 	}
 
-	public function getCreditCardNumber($creditCardNumber)
+	public function getCreditCardNumber()
 	{
 		return $this->creditCardNumber;
 	}
@@ -54,7 +54,7 @@ class Transaction extends AbstractEntity
 		return $this;
 	}
 
-	public function getCreditCardExpiration($creditCardExpiration)
+	public function getCreditCardExpiration()
 	{
 		return $this->creditCardExpiration;
 	}
@@ -65,10 +65,8 @@ class Transaction extends AbstractEntity
 		return $this;
 	}
 
-	public function getStatus($status)
+	public function getStatus()
 	{
 		return $this->status;
 	}
-
-
 }

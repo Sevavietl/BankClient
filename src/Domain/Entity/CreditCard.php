@@ -13,7 +13,7 @@ class CreditCard extends AbstractEntity
 		return $this;
 	}
 
-	public function getNumber($creditCardNumber)
+	public function getNumber()
 	{
 		return $this->creditCardNumber;
 	}
@@ -24,7 +24,7 @@ class CreditCard extends AbstractEntity
 		return $this;
 	}
 
-	public function getExpiration($expiration)
+	public function getExpiration()
 	{
 		return $this->expiration;
 	}
