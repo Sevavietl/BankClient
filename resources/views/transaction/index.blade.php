@@ -35,15 +35,15 @@
 				<tbody>
 					@foreach($transactions as $transaction)
 						<tr>
-							<td>{{ $transaction->id }}</td>
-							<td>{{ $transaction->first_name }}</td>
-							<td>{{ $transaction->last_name }}</td>
-							<td>{{ $transaction->card_number }}</td>
-							<td>{{ $transaction->card_expiration }}</td>
-							<td>{{ $transaction->amount }}</td>
-							<td>{{ $transaction->status }}</td>
-							<td>{{ $transaction->created_at }}</td>
-							<td>{{ $transaction->updated_at }}</td>
+							<td>{{ $transaction->getId() }}</td>
+							<td>{{ $transaction->getFirstName() }}</td>
+							<td>{{ $transaction->getLastName() }}</td>
+							<td>{{ $transaction->getCardNumber() }}</td>
+							<td>{{ $transaction->getCardExpiration() }}</td>
+							<td>{{ $transaction->getAmount() }}</td>
+							<td>{{ $transaction->getStatus() }}</td>
+							<td>{{ $transaction->getCreatedAt() }}</td>
+							<td>{{ $transaction->getUpdatedAt() }}</td>
 						</tr>
 					@endforeach
 				</tbody>

@@ -15,13 +15,16 @@ implements RepositoryInterface
 {
 	protected $model;
 	protected $hydrator;
+	protected $entity;
 
 	public function __construct(
 		Model $model,
-		HydratorInterface $hydrator
+		HydratorInterface $hydrator,
+		AbstractEntity $entity
 	) {
 		$this->model = $model;
 		$this->hydrator = $hydrator;
+		$this->entity = $entity;
 	}
 
 	public function getById($id)
@@ -29,7 +32,31 @@ implements RepositoryInterface
 		$model = $this->model;
 		$result = $model::find($id);
 
-		return $result ? $result : false;
+		return $result
+			? $this->hydrator->insert($this->entity, $result->toArray())
+			: false;
+	}
+
+	public function getBy(array $criterias)
+	{
+		$model = $this->model;
+
+		foreach ($criterias as $criteria => $value) {
+			$model->where($criteria, '=', $value);
+		}
+
+		$result = $model->get();
+
+		if (!$result) {
+			return false;
+		}
+
+		$results = [];
+		foreach ($resultSet as $result) {
+			$results[] = $this->hydrator->insert(clone $this->entity, $result->toArray());
+		}
+
+		return $results;
 	}
 
 	public function getAll()
@@ -37,7 +64,16 @@ implements RepositoryInterface
 		$model = $this->model;
 		$resultSet = $model::all();
 
-		return $resultSet;
+		if (!$resultSet) {
+			return false;
+		}
+
+		$results = [];
+		foreach ($resultSet as $result) {
+			$results[] = $this->hydrator->insert(clone $this->entity, $result->toArray());
+		}
+
+		return $results;
 	}
 
 	public function persist(AbstractEntity $entity)

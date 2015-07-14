@@ -15,10 +15,10 @@ class HttpBankClient implements HttpBankClientInterface
 	protected $client;
 	protected $token;
 	protected $lastError;
-	protected $baseUri = '';
+	protected $baseUri = 'http://localhost:8001/transaction/';
 
 	// uris
-	protected $autheticateUri = 'authenticate';
+	protected $authenticateUri = 'authenticate';
 	protected $billUri = 'bill';
 
 	public function __construct()
@@ -44,34 +44,48 @@ class HttpBankClient implements HttpBankClientInterface
 
 	public function authenticate()
 	{
-		return true;
-
 		$response = $this->client->post(
 			$this->authenticateUri,
 			[
-				'user' => $this->user,
-				'card' => $this->card,
+				'form_params' => [
+					'first_name' => $this->user->getFirstName(),
+	       			'last_name' => $this->user->getLastName(),
+	       			'card_number' => $this->card->getCardNumber(),
+	       			'card_expiration' => $this->card->getCardExpiration(),
+				]
 			]
 		);
 
-		if ($response->getStatusCode() === 200) {
+		$result = json_decode((string) $response->getBody());
+
+		dd($result);
+
+		if ($result->authenticated) {
+			$this->token = $result->token;
 			return true;
 		}
 
-
+		$this->lastError = $result->error;
 		return false;
 	}
 
 	public function bill($amount)
 	{
-		return true;
-		$response = $this->client->get($this->billUri);
+		$response = $this->client->post(
+			$this->billUri,
+			[
+				'token' => $this->token,
+				'amount' => $amount,
+			]
+		);
 
-		if ($response->getStatusCode() === 200) {
+		$result = json_decode((string) $response->getBody());
+
+		if ($result->billed) {
 			return true;
 		}
-
-
+		
+		$this->lastError = $result->error;
 		return false;
 	}
 }
