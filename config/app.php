@@ -143,6 +143,14 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\RulesServiceProvider::class,
+        App\Providers\ReplacersServiceProvider::class,
+        App\Providers\HydratorServiceProvider::class,
+        App\Providers\TransactionRepositoryServiceProvider::class,
+        App\Providers\HttpBankClientServiceProvider::class,
+
+        Collective\Html\HtmlServiceProvider::class,
+        'Caffeinated\Menus\MenusServiceProvider',
 
     ],
 
@@ -191,6 +199,9 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+        'Form'      => Collective\Html\FormFacade::class,
+        'Html'      => Collective\Html\HtmlFacade::class,
+        'Menu'      => 'Caffeinated\Menus\Facades\Menu',
 
     ],
 

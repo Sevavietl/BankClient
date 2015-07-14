@@ -1,11 +1,13 @@
 <?php
 
-namespace BankClient\Persistance\Hydrator;
+namespace BankClient\Persistence\Laravel\Hydrator;
 
 use BankClient\Domain\Entity\AbstractEntity;
+use Illuminate\Http\Request;
 
 interface HydratorInterface
 {
 	public function extract(AbstractEntity $entity);
 	public function insert(AbstractEntity $entity, $data);
+	public function hydrate(AbstractEntity $entity, Request $request);
 }

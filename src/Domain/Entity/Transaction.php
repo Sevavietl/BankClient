@@ -6,8 +6,9 @@ class Transaction extends AbstractEntity
 {
 	protected $firstName;
 	protected $lastName;
-	protected $creditCardNumber;
-	protected $creditCardExpiration;
+	protected $cardNumber;
+	protected $cardExpiration;
+	protected $amount;
 	protected $status;
 
 	const STATUS_NEW = 'new';
@@ -37,26 +38,37 @@ class Transaction extends AbstractEntity
 		return $this->lastName;
 	}
 
-	public function setCreditCardNumber($creditCardNumber)
+	public function setCardNumber($cardNumber)
 	{
-		$this->creditCardNumber = $creditCardNumber;
+		$this->cardNumber = $cardNumber;
 		return $this;
 	}
 
-	public function getCreditCardNumber()
+	public function getCardNumber()
 	{
-		return $this->creditCardNumber;
+		return $this->cardNumber;
 	}
 
-	public function setCreditCardExpiration($creditCardExpiration)
+	public function setCardExpiration($cardExpiration)
 	{
-		$this->creditCardExpiration = $creditCardExpiration;
+		$this->cardExpiration = $cardExpiration;
 		return $this;
 	}
 
-	public function getCreditCardExpiration()
+	public function getCardExpiration()
 	{
-		return $this->creditCardExpiration;
+		return $this->cardExpiration;
+	}
+
+	public function setAmount($amount)
+	{
+		$this->amount = $amount;
+		return $this;
+	}
+
+	public function getAmount()
+	{
+		return $this->amount;
 	}
 
 	public function setStatus($status)

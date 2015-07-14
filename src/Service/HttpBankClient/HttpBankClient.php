@@ -4,14 +4,14 @@ namespace BankClient\Service\HttpBankClient;
 
 use BankClient\Domain\Contract\HttpBankClientInterface;
 use BankClient\Domain\Entity\User;
-use BankClient\Domain\Entity\CreditCard;
+use BankClient\Domain\Entity\Card;
 
 use GuzzleHttp\Client;
 
 class HttpBankClient implements HttpBankClientInterface
 {
 	protected $user;
-	protected $creditCard;
+	protected $card;
 	protected $client;
 	protected $token;
 	protected $lastError;
@@ -30,25 +30,27 @@ class HttpBankClient implements HttpBankClientInterface
 
 	public function setUser(User $user)
 	{
-		$this->$user = $user;
+		$this->user = $user;
 
 		return $this;
 	}
 
-	public function setCreditCard(CreditCard $creditCard)
+	public function setCard(Card $card)
 	{
-		$this->creditCard = $creditCard;
+		$this->card = $card;
 
 		return $this;
 	}
 
 	public function authenticate()
 	{
+		return true;
+
 		$response = $this->client->post(
 			$this->authenticateUri,
 			[
 				'user' => $this->user,
-				'creditCard' => $this->creditCard,
+				'card' => $this->card,
 			]
 		);
 
@@ -62,6 +64,7 @@ class HttpBankClient implements HttpBankClientInterface
 
 	public function bill($amount)
 	{
+		return true;
 		$response = $this->client->get($this->billUri);
 
 		if ($response->getStatusCode() === 200) {

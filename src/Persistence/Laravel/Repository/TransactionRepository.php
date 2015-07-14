@@ -5,7 +5,7 @@ namespace BankClient\Persistence\Laravel\Repository;
 use BankClient\Domain\Repository\TransactionRepositoryInterface;
 
 class TransactionRepository
-extends AbstractRepositry
+extends AbstractRepository
 implements TransactionRepositoryInterface
 {
 }

@@ -22,14 +22,14 @@ class BillingService
 		$this->transactionRepository = $transactionRepository;
 	}
 
-	public function conductTransaction($amount)
+	public function conductTransaction()
 	{
 		$this->setTransactionStatus(Transaction::STATUS_NEW);
 
 		if ($this->httpClient->authenticate()) {
 			$this->setTransactionStatus(Transaction::STATUS_PENDING);
 
-			if ($this->httpClient->bill($amount)) {
+			if ($this->httpClient->bill($this->transaction->getAmount())) {
 				$this->setTransactionStatus(Transaction::STATUS_COMPLETED);
 
 				return;
