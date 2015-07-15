@@ -14,5 +14,5 @@
 Route::resource('transaction', 'TransactionController');
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('transaction');
 });

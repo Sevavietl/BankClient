@@ -151,6 +151,7 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
         'Caffeinated\Menus\MenusServiceProvider',
+        'Laracasts\Flash\FlashServiceProvider',
 
     ],
 
@@ -202,6 +203,7 @@ return [
         'Form'      => Collective\Html\FormFacade::class,
         'Html'      => Collective\Html\HtmlFacade::class,
         'Menu'      => 'Caffeinated\Menus\Facades\Menu',
+        'Flash'     => 'Laracasts\Flash\Flash',
 
     ],
 

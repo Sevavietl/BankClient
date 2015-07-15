@@ -32,11 +32,12 @@ class BillingService
 			if ($this->httpClient->bill($this->transaction->getAmount())) {
 				$this->setTransactionStatus(Transaction::STATUS_COMPLETED);
 
-				return;
+				return true;
 			}
 		}
 
 		$this->setTransactionStatus(Transaction::STATUS_FAILED);
+		return false;
 	}
 
 	protected function recordTransaction()
@@ -51,5 +52,10 @@ class BillingService
 	{
 		$this->transaction->setStatus($status);
 		$this->recordTransaction();
+	}
+
+	public function getLastError()
+	{
+		return $this->httpClient->getLastError();
 	}
 }

@@ -58,8 +58,6 @@ class HttpBankClient implements HttpBankClientInterface
 
 		$result = json_decode((string) $response->getBody());
 
-		dd($result);
-
 		if ($result->authenticated) {
 			$this->token = $result->token;
 			return true;
@@ -74,8 +72,10 @@ class HttpBankClient implements HttpBankClientInterface
 		$response = $this->client->post(
 			$this->billUri,
 			[
-				'token' => $this->token,
-				'amount' => $amount,
+				'form_params' => [
+					'token' => $this->token,
+					'amount' => $amount,
+				]
 			]
 		);
 
@@ -84,8 +84,13 @@ class HttpBankClient implements HttpBankClientInterface
 		if ($result->billed) {
 			return true;
 		}
-		
+
 		$this->lastError = $result->error;
 		return false;
+	}
+
+	public function getLastError()
+	{
+		return $this->lastError;
 	}
 }

@@ -32,8 +32,6 @@ class TransactionController extends Controller
         TransactionRepositoryInterface $repository,
         HttpBankClientInterface $httpClient
     ){
-        $this->middleware('menu');
-
         $this->hydrator = $hydrator;
         $this->repository = $repository;
         $this->httpClient = $httpClient;
@@ -92,21 +90,13 @@ class TransactionController extends Controller
             $this->repository
         );
 
-        $billingService->conductTransaction();
+        if (!$billingService->conductTransaction()) {
+            \Flash::error($billingService->getLastError());
 
-        dd($billingService);
+            return back()->withInput();
+        }
 
-        //dd($request->all());
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
+        \Flash::success('Transaction was successefuly conducted');
+        return redirect('transaction/create');
     }
 }

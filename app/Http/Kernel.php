@@ -18,6 +18,7 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \App\Http\Middleware\VerifyCsrfToken::class,
+        \App\Http\Middleware\MenuMiddleware::class,
     ];
 
     /**
@@ -26,6 +27,6 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'menu' => \App\Http\Middleware\MenuMiddleware::class,
+        // 'menu' => \App\Http\Middleware\MenuMiddleware::class,
     ];
 }
