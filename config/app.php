@@ -145,9 +145,10 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\RulesServiceProvider::class,
         App\Providers\ReplacersServiceProvider::class,
+        App\Providers\GuzzleHttpClientServiceProvider::class,
+        App\Providers\HttpBankClientServiceProvider::class,
         App\Providers\HydratorServiceProvider::class,
         App\Providers\TransactionRepositoryServiceProvider::class,
-        App\Providers\HttpBankClientServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
         'Caffeinated\Menus\MenusServiceProvider',

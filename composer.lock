@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "49788dd62074b4898eed3ab038b3cec9",
+    "hash": "7921cdea7e15a4e15bff2bbd3ce39826",
     "packages": [
         {
             "name": "caffeinated/menus",

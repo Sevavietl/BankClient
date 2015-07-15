@@ -5,10 +5,17 @@ namespace BankClient\Persistence\Laravel\Hydrator;
 use BankClient\Persistence\Laravel\Hydrator\HydratorInterface;
 
 use BankClient\Domain\Entity\AbstractEntity;
+
 use Illuminate\Http\Request;
 
 class SimpleHydrator implements HydratorInterface
 {
+	/**
+	 * Extract data from entity to simple array, so we can give it to
+	 * Eloquent Model
+	 * @param  BankServer\Domain\Entity\AbstractEntity $entity
+	 * @return array
+	 */
 	public function extract(AbstractEntity $entity)
 	{
 		$result = [];
@@ -28,6 +35,12 @@ class SimpleHydrator implements HydratorInterface
 		return $result;
 	}
 
+	/**
+	 * Populate entity with array data
+	 * @param  BankServer\Domain\Entity\AbstractEntity $entity
+	 * @param  array         $data
+	 * @return BankServer\Domain\Entity\AbstractEntity
+	 */
 	public function insert(AbstractEntity $entity, $data)
 	{
 		$reflection = new \ReflectionClass($entity);
@@ -41,6 +54,12 @@ class SimpleHydrator implements HydratorInterface
 		return $entity;
 	}
 
+	/**
+	 * Extract data from the request and populate entity with it
+	 * @param  BankServer\Domain\Entity\AbstractEntity $entity
+	 * @param  Illuminate\Http\Request        $request
+	 * @return BankServer\Domain\Entity\AbstractEntity
+	 */
 	public function hydrate(AbstractEntity $entity, Request $request)
 	{
 		$reflection = new \ReflectionClass($entity);

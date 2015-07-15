@@ -4,9 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-use BankClient\Service\HttpBankClient\HttpBankClient;
+use GuzzleHttp\Client;
 
-class HttpBankClientServiceProvider extends ServiceProvider
+class GuzzleHttpClientServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -15,10 +15,10 @@ class HttpBankClientServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->singleton('BankClient\Domain\Contract\HttpBankClientInterface', function($app) {
-            return new HttpBankClient(
-                $app->make('GuzzleHttp\Client')
-            );
+        $this->app->singleton('GuzzleHttp\Client', function($app) {
+            return new Client([
+                'base_uri' => env('BANK_SERVER_BASE_URI', 'localhost:8000') . '/transaction/',
+            ]);
         });
     }
 

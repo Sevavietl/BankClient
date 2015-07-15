@@ -18,7 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->string('last_name');
             $table->string('card_number');
             $table->string('card_expiration');
-            $table->string('amount');
+            $table->integer('amount');
             $table->string('status');
             $table->timestamps();
         });
