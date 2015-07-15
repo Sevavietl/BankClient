@@ -17,7 +17,7 @@ class HttpBankClientServiceProvider extends ServiceProvider
     {
         $this->app->singleton('BankClient\Domain\Contract\HttpBankClientInterface', function($app) {
             return new HttpBankClient(
-                $app->make('GuzzleHttp\Client')
+                $this->app->make('GuzzleHttp\ClientInterface')
             );
         });
     }

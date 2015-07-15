@@ -1,4 +1,11 @@
 $(function () {
+	// Make flash dissapear
+	if ($('.alert').length) {
+		window.setTimeout(function(){
+			$('.alert').fadeOut('slow');
+		}, 5000);
+	}
+
 	initializeDatepicker();
 
 	$('[name="card_number"]').mask('9999 9999 9999 9999');

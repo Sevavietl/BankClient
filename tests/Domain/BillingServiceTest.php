@@ -100,5 +100,4 @@ class BillingServiceTest extends PHPUnit_Framework_TestCase
 
 		$this->assertTrue($billingService->conductTransaction());
 	}
-
 }

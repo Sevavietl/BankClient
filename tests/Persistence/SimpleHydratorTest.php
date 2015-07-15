@@ -35,67 +35,90 @@ class SimpleHydratorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExtract()
 	{
+		$this->entity->getId()->willReturn(null);
+		$this->entity->getFirstName()->willReturn('John');
+		$this->entity->getLastName()->willReturn('Dow');
+		$this->entity->getCardNumber()->willReturn('1234 1234 1234 1234');
+		$this->entity->getCardExpiration()->willReturn('07/16');
+		$this->entity->getAmount()->willReturn(5);
+		$this->entity->getStatus()->willReturn('new');
+		$this->entity->getCreatedAt()->willReturn('2015-07-14 14:58:22');
+		$this->entity->getUpdatedAt()->willReturn('2015-07-14 14:58:22');
 
-		$this->transaction->setStatus(Transaction::STATUS_NEW)->shouldBeCalled();
-		$this->transactionRepository->persist($this->transaction)->shouldBeCalled();
-		$this->httpClient->authenticate()->willReturn(false);
-		$this->transaction->setStatus(Transaction::STATUS_FAILED)->shouldBeCalled();
-		$this->transactionRepository->persist($this->transaction)->shouldBeCalled();
-
-		$billingService = new BillingService(
-			$this->httpClient->reveal(),
-			$this->transaction->reveal(),
-			$this->transactionRepository->reveal()
+		$this->assertEquals(
+			$this->hydrator->extract($this->entity->reveal()),
+			[
+				'first_name' => 'John',
+				'last_name' => 'Dow',
+				'card_number' => '1234 1234 1234 1234',
+				'card_expiration' => '07/16',
+				'amount' => 5,
+				'status' => 'new',
+				'created_at' => '2015-07-14 14:58:22',
+				'updated_at' => '2015-07-14 14:58:22',
+			]
 		);
-
-		$this->assertFalse($billingService->conductTransaction());
 	}
 
-	// /**
-	//  * Transaction authenticated but not billed
-	//  */
-	// public function testConductTransactionAuthenticatedNotBilled()
-	// {
-	// 	$this->transaction->setStatus(Transaction::STATUS_NEW)->shouldBeCalled();
-	// 	$this->transactionRepository->persist($this->transaction)->shouldBeCalled();
-	// 	$this->httpClient->authenticate()->willReturn(true);
-	// 	$this->transaction->setStatus(Transaction::STATUS_PENDING)->shouldBeCalled();
-	// 	$this->transactionRepository->persist($this->transaction)->shouldBeCalled();
-	// 	$this->transaction->getAmount()->willReturn(5);
-	// 	$this->httpClient->bill(5)->willReturn(false);
-	// 	$this->transaction->setStatus(Transaction::STATUS_FAILED)->shouldBeCalled();
-	// 	$this->transactionRepository->persist($this->transaction)->shouldBeCalled();
-	//
-	// 	$billingService = new BillingService(
-	// 		$this->httpClient->reveal(),
-	// 		$this->transaction->reveal(),
-	// 		$this->transactionRepository->reveal()
-	// 	);
-	//
-	// 	$this->assertFalse($billingService->conductTransaction());
-	// }
-	//
-	// /**
-	//  * Transaction authenticated an billed
-	//  */
-	// public function testConductTransactionAuthenticatedBilled()
-	// {
-	// 	$this->transaction->setStatus(Transaction::STATUS_NEW)->shouldBeCalled();
-	// 	$this->transactionRepository->persist($this->transaction)->shouldBeCalled();
-	// 	$this->httpClient->authenticate()->willReturn(true);
-	// 	$this->transaction->setStatus(Transaction::STATUS_PENDING)->shouldBeCalled();
-	// 	$this->transactionRepository->persist($this->transaction)->shouldBeCalled();
-	// 	$this->transaction->getAmount()->willReturn(5);
-	// 	$this->httpClient->bill(5)->willReturn(true);
-	// 	$this->transaction->setStatus(Transaction::STATUS_COMPLETED)->shouldBeCalled();
-	// 	$this->transactionRepository->persist($this->transaction)->shouldBeCalled();
-	//
-	// 	$billingService = new BillingService(
-	// 		$this->httpClient->reveal(),
-	// 		$this->transaction->reveal(),
-	// 		$this->transactionRepository->reveal()
-	// 	);
-	//
-	// 	$this->assertTrue($billingService->conductTransaction());
-	// }
+	/**
+	 * Test insert
+	 */
+	public function testInsert()
+	{
+		$transaction = new Transaction;
+
+		$entity = $this->hydrator->insert(
+			$transaction,
+			[
+				'first_name' => 'John',
+				'last_name' => 'Dow',
+				'card_number' => '1234 1234 1234 1234',
+				'card_expiration' => '07/16',
+				'amount' => 5,
+				'status' => 'new',
+				'created_at' => '2015-07-14 14:58:22',
+				'updated_at' => '2015-07-14 14:58:22',
+			]
+		);
+
+		$this->assertEquals($entity->getId(), null);
+		$this->assertEquals($entity->getFirstName(), 'John');
+		$this->assertEquals($entity->getLastName(), 'Dow');
+		$this->assertEquals($entity->getCardNumber(), '1234 1234 1234 1234');
+		$this->assertEquals($entity->getCardExpiration(), '07/16');
+		$this->assertEquals($entity->getAmount(), 5);
+		$this->assertEquals($entity->getStatus(), 'new');
+		$this->assertEquals($entity->getCreatedAt(), '2015-07-14 14:58:22');
+		$this->assertEquals($entity->getUpdatedAt(), '2015-07-14 14:58:22');
+	}
+
+	/**
+	* Test hydrate
+	*/
+	public function testHydrate()
+	{
+		$transaction = new Transaction;
+		$request = $this->prophet->prophesize('Illuminate\Http\Request');
+		$request->get('first_name')->willReturn('John');
+		$request->get('last_name')->willReturn('Dow');
+		$request->get('card_number')->willReturn('1234 1234 1234 1234');
+		$request->get('card_expiration')->willReturn('07/16');
+		$request->get('amount')->willReturn(5);
+		$request->get('status')->willReturn(null);
+		$request->get('created_at')->willReturn(null);
+		$request->get('updated_at')->willReturn(null);
+
+		$entity = $this->hydrator->hydrate($transaction, $request->reveal());
+
+		$this->assertEquals($entity->getId(), null);
+		$this->assertEquals($entity->getFirstName(), 'John');
+		$this->assertEquals($entity->getLastName(), 'Dow');
+		$this->assertEquals($entity->getCardNumber(), '1234 1234 1234 1234');
+		$this->assertEquals($entity->getCardExpiration(), '07/16');
+		$this->assertEquals($entity->getAmount(), 5);
+		$this->assertEquals($entity->getStatus(), null);
+		$this->assertEquals($entity->getCreatedAt(), null);
+		$this->assertEquals($entity->getUpdatedAt(), null);
+
+	}
 }

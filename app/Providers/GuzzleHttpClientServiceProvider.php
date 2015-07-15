@@ -15,7 +15,7 @@ class GuzzleHttpClientServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->singleton('GuzzleHttp\Client', function($app) {
+        $this->app->singleton('GuzzleHttp\ClientInterface', function($app) {
             return new Client([
                 'base_uri' => env('BANK_SERVER_BASE_URI', 'localhost:8000') . '/transaction/',
             ]);

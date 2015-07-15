@@ -6,7 +6,7 @@ use BankClient\Domain\Contract\HttpBankClientInterface;
 use BankClient\Domain\Entity\User;
 use BankClient\Domain\Entity\Card;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 
 class HttpBankClient implements HttpBankClientInterface
 {
@@ -20,7 +20,7 @@ class HttpBankClient implements HttpBankClientInterface
 	protected $authenticateUri = 'authenticate';
 	protected $billUri = 'bill';
 
-	public function __construct(Client $client)
+	public function __construct(ClientInterface $client)
 	{
 		$this->client = $client;
 	}
@@ -103,6 +103,26 @@ class HttpBankClient implements HttpBankClientInterface
 
 		$this->lastError = $result->error;
 		return false;
+	}
+
+	/**
+	 * [setToken description]
+	 * @param string $token [description]
+	 */
+	public function setToken($token)
+	{
+		$this->token = $token;
+
+		return $this;
+	}
+
+	/**
+	 * [getToken description]
+	 * @return string [description]
+	 */
+	public function getToken()
+	{
+		return $this->token;
 	}
 
 	/**
