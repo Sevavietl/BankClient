@@ -3,12 +3,6 @@
 @section('head')
 @parent
 
-<style>
-	.ui-datepicker-calendar {
-    	display: none;
-    }
-</style>
-
 <script src="{{ asset('js/jquery.maskedinput.js') }}"></script>
 <script src="{{ asset('js/create-transaction.js') }}"></script>
 @stop
@@ -27,7 +21,7 @@
 							'first_name',
 							'First Name:',
 							[
-								'class' => 'col-sm-2 control-label',
+								'class' => 'col-sm-2 control-label required',
 							]
 						)
 					!!}
@@ -37,7 +31,7 @@
 								'first_name',
 								old('first_name'),
 								[
-									'class' => 'form-control',
+									'class' => 'form-control ',
 									'placeholder' => 'First Name',
 								]
 							)
@@ -54,7 +48,7 @@
 							'last_name',
 							'Last Name:',
 							[
-								'class' => 'col-sm-2 control-label',
+								'class' => 'col-sm-2 control-label required',
 							]
 						)
 					!!}
@@ -81,7 +75,7 @@
 							'card_number',
 							'Card Number:',
 							[
-								'class' => 'col-sm-2 control-label',
+								'class' => 'col-sm-2 control-label required',
 							]
 						)
 					!!}
@@ -108,7 +102,7 @@
 							'card_expiration',
 							'Card Expiration:',
 							[
-								'class' => 'col-sm-2 control-label',
+								'class' => 'col-sm-2 control-label required',
 							]
 						)
 					!!}
@@ -138,7 +132,7 @@
 							'amount',
 							'Amount:',
 							[
-								'class' => 'col-sm-2 control-label',
+								'class' => 'col-sm-2 control-label required',
 							]
 						)
 					!!}

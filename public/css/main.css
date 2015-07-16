@@ -1,0 +1,12 @@
+.ui-datepicker-calendar {
+	display: none;
+}
+
+.required::before {
+	content: "*";
+	color: red;
+}
+
+.error {
+	color: red;
+}
