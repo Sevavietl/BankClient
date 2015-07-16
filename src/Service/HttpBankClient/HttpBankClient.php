@@ -53,17 +53,22 @@ class HttpBankClient implements HttpBankClientInterface
 	 */
 	public function authenticate()
 	{
-		$response = $this->client->post(
-			$this->authenticateUri,
-			[
-				'form_params' => [
-					'first_name' => $this->user->getFirstName(),
-	       			'last_name' => $this->user->getLastName(),
-	       			'card_number' => $this->card->getCardNumber(),
-	       			'card_expiration' => $this->card->getCardExpiration(),
+		try {
+			$response = $this->client->post(
+				$this->authenticateUri,
+				[
+					'form_params' => [
+						'first_name' => $this->user->getFirstName(),
+		       			'last_name' => $this->user->getLastName(),
+		       			'card_number' => $this->card->getCardNumber(),
+		       			'card_expiration' => $this->card->getCardExpiration(),
+					]
 				]
-			]
-		);
+			);
+		} catch (\Exception $e) {
+			$this->lastError = 'Could not establish connection with Bank Server';
+			return false;
+		}
 
 		$result = json_decode((string) $response->getBody());
 
@@ -85,15 +90,20 @@ class HttpBankClient implements HttpBankClientInterface
 	 */
 	public function bill($amount)
 	{
-		$response = $this->client->post(
-			$this->billUri,
-			[
-				'form_params' => [
-					'token' => $this->token,
-					'amount' => $amount,
+		try {
+			$response = $this->client->post(
+				$this->billUri,
+				[
+					'form_params' => [
+						'token' => $this->token,
+						'amount' => $amount,
+					]
 				]
-			]
-		);
+			);
+		} catch (\Exception $e) {
+			$this->lastError = 'Could not establish connection with Bank Server';
+			return false;
+		}
 
 		$result = json_decode((string) $response->getBody());
 
